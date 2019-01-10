@@ -2,16 +2,16 @@
 # 丛林小工具库
 
 * makesql.js
-js版sql生成器
+(js版sql生成器)
 
 * db.js
-apicloud数据库操作工具  依赖 makesql.js
+(apicloud数据库操作工具  依赖 makesql.js)
 
 * syncdb.js
-apicloud数据库同步操作工具 依赖 makesql.js
+(apicloud数据库同步操作工具 依赖 makesql.js)
 
 * html5.js
-网页版数据库操作工具 依赖 makesql.js
+(网页版数据库操作工具 依赖 makesql.js)
 
 
 
