@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width"/>
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>apicloud 数据库异步测试页</title>
+    <style>
+
+    </style>
+</head>
+<body>
+
+</body>
+<script type="text/javascript" src="../src/db/makesql.js"></script>
+<script type="text/javascript" src="../src/db/db.js"></script>
+
+<script>
+    //apicloud 控制台无法打印object对象  简单包装方便测试
+    function p(o) {
+        console.log(JSON.stringify(o));
+    }
+
+    apiready = function () {
+        globalDB = api.require('db'); //引用db模块
+        DBinit('test', function (ret) {
+
+            console.log('开启数据库');
+            //建表语句
+            var tabSql = 'CREATE TABLE "cover" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"name" TEXT,"url" TEXT,"icon" TEXT,"num" INTEGER)';
+
+            DBquery('test', tabSql, function (ret) {
+                p(ret);
+            });
+
+            var db = new apiDB({
+                tabname: "cover",
+                dbname: "test"
+            });
+
+            db.showTables(function (ret) {
+                p(ret);
+            });
+
+
+
+            //添加一条数据
+            db.insert({
+                name: "wangcong",
+                url: "baidu",
+                icon: "icon",
+                num: 1
+            }, function (ret) {
+                console.log('测试添加');
+                p(ret);
+            });
+            console.log(33333);
+            db.where('id', 1).delete(function (ret) {
+                p(ret);
+            });
+
+            db.where('id', 2).update({
+                name: "wangcong1",
+                url: "wangcong1",
+                icon: "wangcong1",
+                num: "5"
+            }, function (ret) {
+                p(ret);
+            });
+
+            db.where('id', 5).setField('name', 'nginx', function (ret) {
+                p(ret);
+            });
+
+            db.where('id', 5).inc('num', 1, function (ret) {
+                p(ret);
+            });
+
+            db.where('id', 6).dec('num', function (ret) {
+                p(ret);
+            });
+
+            db.where('id', '<', 7).sum('num', function (ret) {
+                p(ret);
+            });
+
+            db.where('id', '<', 7).count('num', function (ret) {
+                p(ret);
+            });
+
+            db.where('num', 1).start(2).num(2).select(function (ret) {
+                p(ret);
+            });
+
+            db.select(function (ret) {
+                p(ret);
+            });
+        });
+
+
+    };
+
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width"/>
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>apicloud 数据库同步测试页</title>
+    <style>
+
+    </style>
+</head>
+<body>
+
+</body>
+<script type="text/javascript" src="../src/db/makesql.js"></script>
+<script type="text/javascript" src="../src/db/syncdb.js"></script>
+<script>
+    //apicloud 控制台无法打印object对象  简单包装方便测试
+    function p(o) {
+        console.log(JSON.stringify(o));
+    }
+    apiready = function () {
+        globalDB = api.require('db'); //引用db模块
+        p(DBinit('test'));
+
+        console.log('同步开启数据库');
+        //建表语句
+        var tabSql = 'CREATE TABLE "cover_test" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"title" TEXT,"url" TEXT,"icon" TEXT,"time" INTEGER)';
+        //历史表
+        var historyTabSql = 'CREATE TABLE "history" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"icon" TEXT,"url" TEXT,"title" TEXT,"time" INTEGER)';
+        //书签
+        var bookMarkTabSql = 'CREATE TABLE "book_mark" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"icon" TEXT,"url" TEXT,"title" TEXT,"time" INTEGER)';
+        //首屏
+        var coverTabSql = 'CREATE TABLE "cover" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"icon" TEXT,"url" TEXT,"title" TEXT,"time" INTEGER)';
+
+        //删除表
+        var dropHistory = "drop table history";
+        var dropBookMark = "drop table book_mark";
+        var dropCover = "drop table cover";
+        var dropTabSql = "drop table cover_test";
+
+        //
+        p(DBquery('test', dropHistory));
+        p(DBquery('test', dropBookMark));
+        p(DBquery('test', dropCover));
+        p(DBquery('test', dropTabSql));
+
+        //创建表
+        p(DBquery('test', tabSql));
+        p(DBquery('test', historyTabSql));
+        p(DBquery('test', bookMarkTabSql));
+        p(DBquery('test', coverTabSql));
+
+        var db = new apiDB({
+            tabname: "cover_test",
+            dbname: "test"
+        });
+        console.log('打印所有数据库');
+        p(db.showTables());
+        console.log('打印所有数据库结束');
+        //添加一条数据
+        p(db.insert({
+            title: "wangcong",
+            url: "baidu",
+            icon: "icon",
+            time: time()
+        }));
+
+        p(db.where('id', 1).delete());
+
+        console.log('更新数据');
+        p(db.where('id', 2).update({
+            title: "wangcong1",
+            url: "wangcong1",
+            icon: "wangcong1",
+            time: time()
+        }));
+
+        p(db.where('id', 5).setField('title', 'nginx'));
+
+        p(db.where('id', 5).inc('time', 1));
+
+        p(db.where('id', 6).dec('time'));
+
+        p(db.where('id', '<', 7).sum('time'));
+
+        p(db.where('id', '<', 7).count('time'));
+
+        p(db.where('id', 1).start(2).num(2).select());
+
+        p(db.select());
+
+    };
+
+</script>
+</body>
+</html>

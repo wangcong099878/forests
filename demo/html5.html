@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>html5数据库操作</title>
+</head>
+<body>
+<script src="../src/db/makesql.js"></script>
+<script src="../src/db/html5.js"></script>
+
+<script>
+    //初始化数据库
+    DBinit('test1', 1024 * 1024 * 4);
+
+    //历史表
+    var historyTabSql = 'CREATE TABLE "history" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"icon" TEXT,"url" TEXT,"title" TEXT,"time" INTEGER)';
+    //书签
+    var bookMarkTabSql = 'CREATE TABLE "book_mark" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"icon" TEXT,"url" TEXT,"title" TEXT,"time" INTEGER)';
+    //首屏
+    var coverTabSql = 'CREATE TABLE "cover" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"icon" TEXT,"url" TEXT,"title" TEXT,"time" INTEGER)';
+
+    //删除表
+    var dropHistory = "drop table history";
+    var dropBookMark = "drop table book_mark";
+    var dropCover = "drop table cover";
+
+    //建表语句
+    var tabSql = 'CREATE TABLE "cover" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"name" TEXT,"url" TEXT,"icon" TEXT,"num" INTEGER)';
+
+    //创建数据库表
+    DBquery(tabSql, function (ret) {
+        console.log(ret);
+    });
+
+    //实例化model
+    var db = new H5DB({
+        tabname: "cover",
+        dbname: "test1"
+    });
+
+    db.showTables('co', function (ret) {
+        console.log(ret);
+    });
+
+    //添加一条数据
+    db.insert({
+        name: "wangcong",
+        url: "baidu",
+        icon: "icon",
+        num: 1
+    }, function (ret) {
+        console.log(ret);
+    });
+    //
+    //    //删除数据
+    //    db.where('id', 1).delete(function (ret) {
+    //        console.log(ret);
+    //    });
+    //
+    //    //更新数据
+    //    db.where('id', 2).update({
+    //        name: "ddd",
+    //        url: "ddd",
+    //        icon: "ddd",
+    //        num: "5"
+    //    }, function (ret) {
+    //        console.log(ret);
+    //    });
+    //
+    //    //修改字段
+    //    db.where('id', 5).setField('name', 'nginx', function (ret) {
+    //        console.log(ret);
+    //    });
+    //
+    //    //增加
+    //    db.where('id', 5).inc('num', 1, function (ret) {
+    //        console.log(ret);
+    //    });
+    //
+    //    //减少
+    //    db.where('id', 6).dec('num', function (ret) {
+    //        console.log(ret);
+    //    });
+    //
+    //    //求和
+    //    db.where('id', '<', 7).sum('num', function (ret) {
+    //        console.log(ret);
+    //    });
+    //
+    //    //统计
+    //    db.where('id', '<', 7).count('num', function (ret) {
+    //        console.log(ret);
+    //    });
+    //
+    //    //获取一定条目   分页查询
+    //    db.where('num', 1).start(2).num(2).select(function (ret) {
+    //        console.log(ret);
+    //    });
+
+    //自定义where条件
+    //    db.where(function(){
+    //        return "id = 2";
+    //    }).select(function (ret) {
+    //        console.log(ret);
+    //    });
+
+    //pluck
+
+    //自定义where条件也支持链式操作
+    var sql = db.where(function () {
+        return "id = 2";
+    }).orWhere(function () {
+        return "num = 1"
+    }).order("num desc").order("id asc").order("name desc").num(1).select(function (ret) {
+        console.log(ret);
+    });
+
+    db.where('id', 100).find(['name'], function (ret) {
+        console.log(ret);
+    });
+
+    db.where('id', 30).getField('name', function (ret) {
+        console.log(ret);
+    });
+
+    console.log(sql);
+
+    //获取该表全部数据
+    //    db.select(function (ret) {
+    //        console.log(ret);
+    //    });
+
+</script>
+</body>
+</html>

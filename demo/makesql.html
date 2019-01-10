@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sql生成器测试</title>
+</head>
+<body>
+<script src="../src/db/makesql.js"></script>
+
+<script>
+
+    var testModel = new easyDB("test");
+
+    console.log(testModel);
+    var sql = testModel.insert({
+        name: "wangcong",
+        url: "baidu",
+        icon: "icon",
+        num: 1
+    });
+
+    console.log(sql);
+
+
+    sql = testModel.where("id",1).delete();
+    console.log(sql);
+
+    sql = testModel.where(function(){
+        return "(`name` = 3 OR `id` = 6)";
+    }).where("id",1).orWhere("name",2).delete();
+    console.log(sql);
+
+    /* 更新数据 */
+    sql = testModel.where(function(){
+        return "(`name` = 3 OR `id` = 6)";
+    }).where("id",1).orWhere("name",2).update({
+        "name":1,
+        "age":26
+    });
+    /* 更改某字段 */
+    sql = testModel.where(function(){
+        return "(`name` = 3 OR `id` = 6)";
+    }).where("id",1).orWhere("name",2).setField("name","wangcong");
+
+    console.log(sql);
+
+    sql = testModel.where(function(){
+        return "(`name` = 3 OR `id` = 6)";
+    }).where("id",1).orWhere("name",2).select();
+
+    console.log(sql);
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
