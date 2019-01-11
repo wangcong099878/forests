@@ -1,0 +1,31 @@
+<widget id="A608167325784809" version="0.0.1">
+    <name>丛林工具库</name>
+    <description>
+        丛林工具库
+    </description>
+    <author email="251957448@qq.com" href="http://www.360cas.com">
+        王丛
+    </author>
+    <content src="demo/apicloud.syncdb.html"/>
+    <access origin="*"/>
+    <preference name="pageBounce" value="false"/>
+    <preference name="appBackground" value="#ffffff"/>
+    <preference name="windowBackground" value="#ffffff"/>
+    <preference name="frameBackgroundColor" value="#ffffff"/>
+    <preference name="hScrollBarEnabled" value="false"/>
+    <preference name="vScrollBarEnabled" value="false"/>
+    <preference name="autoLaunch" value="true"/>
+    <preference name="fullScreen" value="false"/>
+    <preference name="autoUpdate" value="true"/>
+    <preference name="smartUpdate" value="false"/>
+    <preference name="debug" value="false"/>
+    <preference name="statusBarAppearance" value="true"/>
+    <permission name="readPhoneState"/>
+    <permission name="camera"/>
+    <permission name="record"/>
+    <permission name="location"/>
+    <permission name="fileSystem"/>
+    <permission name="internet"/>
+    <permission name="bootCompleted"/>
+    <permission name="hardware"/>
+</widget>

@@ -11,7 +11,7 @@
     </style>
 </head>
 <body>
-
+apicloud 数据库操作同步测试页
 </body>
 <script type="text/javascript" src="../src/db/makesql.js"></script>
 <script type="text/javascript" src="../src/db/syncdb.js"></script>
@@ -32,19 +32,19 @@
         //书签
         var bookMarkTabSql = 'CREATE TABLE "book_mark" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"icon" TEXT,"url" TEXT,"title" TEXT,"time" INTEGER)';
         //首屏
-        var coverTabSql = 'CREATE TABLE "cover" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"icon" TEXT,"url" TEXT,"title" TEXT,"time" INTEGER)';
+        var coverTabSql = 'CREATE TABLE "cover_sync" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"icon" TEXT,"url" TEXT,"title" TEXT,"time" INTEGER)';
 
         //删除表
         var dropHistory = "drop table history";
         var dropBookMark = "drop table book_mark";
-        var dropCover = "drop table cover";
+        var dropCover = "drop table cover_sync";
         var dropTabSql = "drop table cover_test";
 
-        //
-        p(DBquery('test', dropHistory));
-        p(DBquery('test', dropBookMark));
-        p(DBquery('test', dropCover));
-        p(DBquery('test', dropTabSql));
+
+//        p(DBquery('test', dropHistory));
+//        p(DBquery('test', dropBookMark));
+//        p(DBquery('test', dropCover));
+//        p(DBquery('test', dropTabSql));
 
         //创建表
         p(DBquery('test', tabSql));
@@ -52,19 +52,28 @@
         p(DBquery('test', bookMarkTabSql));
         p(DBquery('test', coverTabSql));
 
+        //实例化
         var db = new apiDB({
             tabname: "cover_test",
             dbname: "test"
         });
+
+        //只传表名实例化
+        var coveryncModel = new apiDB({
+            tabname: "cover_test",
+            dbname: "test"
+        });
+
         console.log('打印所有数据库');
         p(db.showTables());
         console.log('打印所有数据库结束');
+
         //添加一条数据
         p(db.insert({
             title: "wangcong",
             url: "baidu",
             icon: "icon",
-            time: time()
+            time: 23
         }));
 
         p(db.where('id', 1).delete());
@@ -74,7 +83,7 @@
             title: "wangcong1",
             url: "wangcong1",
             icon: "wangcong1",
-            time: time()
+            time: 23
         }));
 
         p(db.where('id', 5).setField('title', 'nginx'));
@@ -90,6 +99,12 @@
         p(db.where('id', 1).start(2).num(2).select());
 
         p(db.select());
+
+        p(db.pluck("title"));
+
+        p(db.where("time",23).getField("title"));
+
+        p(db.where("time",23).find());
 
     };
 

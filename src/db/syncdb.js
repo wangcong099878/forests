@@ -4,7 +4,7 @@
  */
 ;
 var globalDB;
-(function(w) {
+(function (w) {
     var _config = {
         tabname: "demo",
         dbname: "youshang",
@@ -13,7 +13,7 @@ var globalDB;
         err: {},
     };
 
-    var DBquery = function(dbname, sql) {
+    var DBquery = function (dbname, sql) {
         if (sql.indexOf("SELECT") != -1) {
             return globalDB.selectSqlSync({
                 name: dbname,
@@ -28,7 +28,7 @@ var globalDB;
     }
 
     //exec
-    var DBexec = function(dbname, sql) {
+    var DBexec = function (dbname, sql) {
         return globalDB.executeSqlSync({
             name: dbname,
             sql: sql
@@ -36,33 +36,33 @@ var globalDB;
     }
 
     //全局打开数据库
-    var DBinit = function(dbname) {
+    var DBinit = function (dbname) {
         return globalDB.openDatabaseSync({
             name: dbname
         });
     };
 
     //构造函数  可以传字符串或者对象    只传字符串则为表名
-    var S = function(config) {
-            switch (typeof(config)) {
-                case "object":
-                    this.construct(config);
-                    break;
-                case "string":
-                    this.construct();
-                    this.tabname = config;
-                    break;
-                default:
-                    alert("请传入正确的参数");
-            }
-            this.DB = new easyDB({
-                tabname: this.tabname,
-                dbname: this.dbname
-            });
-            return this;
+    var S = function (config) {
+        switch (typeof(config)) {
+            case "object":
+                this.construct(config);
+                break;
+            case "string":
+                this.construct();
+                this.tabname = config;
+                break;
+            default:
+                alert("请传入正确的参数");
         }
-        //构建类属性
-    S.prototype.construct = function(config) {
+        this.DB = new easyDB({
+            tabname: this.tabname,
+            dbname: this.dbname
+        });
+        return this;
+    }
+    //构建类属性
+    S.prototype.construct = function (config) {
         var config = config ? config : {};
         var target = {};
 
@@ -79,41 +79,41 @@ var globalDB;
         this.limitSql = "";
     }
 
-    S.prototype.order = function(orderSql) {
+    S.prototype.order = function (orderSql) {
         this.DB.order(orderSql);
         return this;
     };
 
-    S.prototype.where = function(field, condition, value) {
+    S.prototype.where = function (field, condition, value) {
         this.DB.where(field, condition, value);
         return this;
     };
 
-    S.prototype.orWhere = function(field, condition, value) {
+    S.prototype.orWhere = function (field, condition, value) {
         this.DB.orWhere(field, condition, value);
         return this;
     };
 
     //获取的位置
-    S.prototype.start = function(limit) {
+    S.prototype.start = function (limit) {
         this.DB.start(limit);
         return this;
     };
     //获取条目数
-    S.prototype.num = function(num) {
+    S.prototype.num = function (num) {
         this.DB.num(num);
         return this;
     };
 
     /*工具函数*/
     //打印所有数据表
-    S.prototype.showTables = function(tabname) {
+    S.prototype.showTables = function (tabname) {
         var sql = this.DB.showTables(tabname);
         return DBquery(this.dbname, sql);
     }
 
     /*添加数据*/
-    S.prototype.insert = function(data) {
+    S.prototype.insert = function (data) {
         var sql = this.DB.insert(data);
         var ret = DBexec(this.dbname, sql);
 
@@ -137,26 +137,26 @@ var globalDB;
         // }
     };
     /*删除数据*/
-    S.prototype.delete = function() {
+    S.prototype.delete = function () {
         var sql = this.DB.delete();
         return DBquery(this.dbname, sql);
     };
 
     /*修改数据*/
     //修改一个字段
-    S.prototype.setField = function(field, value) {
+    S.prototype.setField = function (field, value) {
         var sql = this.DB.setField(field, value);
         return DBquery(this.dbname, sql);
     }
 
     //更新部分数据
-    S.prototype.update = function(data) {
+    S.prototype.update = function (data) {
         var sql = this.DB.update(data);
         return DBquery(this.dbname, sql);
     };
 
     /*查询方法*/
-    S.prototype.inc = function(field, num) {
+    S.prototype.inc = function (field, num) {
         if (typeof(num) != 'number') {
             num = 1;
         }
@@ -164,7 +164,7 @@ var globalDB;
         return DBquery(this.dbname, sql);
     };
 
-    S.prototype.dec = function(field, num) {
+    S.prototype.dec = function (field, num) {
         if (typeof(num) != 'number') {
             num = 1;
         }
@@ -173,7 +173,7 @@ var globalDB;
     };
 
     //获取一条  传入字段数组 不传为空则获取全部
-    S.prototype.find = function(fieldList) {
+    S.prototype.find = function (fieldList) {
         var ret = this.select(fieldList);
         if (typeof(ret.data[0]) == "object") {
             return ret.data[0];
@@ -183,7 +183,7 @@ var globalDB;
     };
 
     //获取一个字段
-    S.prototype.getField = function(field) {
+    S.prototype.getField = function (field) {
         var ret = this.select(field);
         if (typeof(ret.data[0][field]) != 'undefined') {
             return ret.data[0][field];
@@ -192,17 +192,35 @@ var globalDB;
         }
     };
 
-    S.prototype.count = function(field) {
+    //获取一列字段的数组
+    S.prototype.pluck = function (field) {
+        var ret = this.select(field);
+        if (typeof(ret.data) != 'undefined') {
+            var result = new Array();
+            var data = ret.data;
+            for (x in data) {
+                if (typeof(data[x][field]) != 'undefined') {
+                    result.push(data[x][field]);
+                }
+            }
+            return result;
+        } else {
+            return false;
+        }
+
+    }
+
+    S.prototype.count = function (field) {
         var sql = this.DB.count(field);
         return DBquery(this.dbname, sql);
     };
 
-    S.prototype.sum = function(field) {
+    S.prototype.sum = function (field) {
         var sql = this.DB.sum(field);
         return DBquery(this.dbname, sql);
     };
 
-    S.prototype.select = function(fieldList) {
+    S.prototype.select = function (fieldList) {
         var sql = "";
         if (typeof(fieldList) == 'undefined') {
             sql = this.DB.select();

@@ -5,13 +5,13 @@
     <meta name="viewport"
           content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width"/>
     <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
-    <title>apicloud 数据库异步测试页</title>
+    <title>apicloud 数据库操作异步测试页</title>
     <style>
 
     </style>
 </head>
 <body>
-
+apicloud 数据库操作异步测试页
 </body>
 <script type="text/javascript" src="../src/db/makesql.js"></script>
 <script type="text/javascript" src="../src/db/db.js"></script>
@@ -30,8 +30,16 @@
             //建表语句
             var tabSql = 'CREATE TABLE "cover" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"name" TEXT,"url" TEXT,"icon" TEXT,"num" INTEGER)';
 
-            DBquery('test', tabSql, function (ret) {
+            //删除原有数据库
+            var dropCover = "drop table cover";
+
+            p(DBquery('test', dropCover, function (ret) {
                 p(ret);
+            }));
+
+            //创建数据库表
+            DBquery('test', tabSql, function (ret) {
+                //p(ret);
             });
 
             var db = new apiDB({
@@ -40,10 +48,9 @@
             });
 
             db.showTables(function (ret) {
+                //打印数据库列表
                 p(ret);
             });
-
-
 
             //添加一条数据
             db.insert({
@@ -55,10 +62,10 @@
                 console.log('测试添加');
                 p(ret);
             });
-            console.log(33333);
-            db.where('id', 1).delete(function (ret) {
-                p(ret);
-            });
+
+            //db.where('id', 1).delete(function (ret) {
+                //p(ret);
+            //});
 
             db.where('id', 2).update({
                 name: "wangcong1",
@@ -94,6 +101,10 @@
             });
 
             db.select(function (ret) {
+                p(ret);
+            });
+
+            db.pluck('name',function (ret) {
                 p(ret);
             });
         });

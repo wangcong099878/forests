@@ -27,11 +27,14 @@
             tx.executeSql(sql, param, function (tx, result) {
                 if (typeof callback == 'function') {
                     callback(result);
+                }else{
+                    console.log(result);
                 }
             }, function (err) {
                 console.log(err);
             });
         })
+        return true;
     }
 
     //全局打开数据库
@@ -184,6 +187,24 @@
             }
         });
     };
+
+    //获取一列字段的数组
+    S.prototype.pluck = function(field,func){
+        return this.select(field,function(ret){
+            if(typeof(ret.rows) != 'undefined'){
+                var result = new Array();
+                var data = ret.rows;
+                for (x in data){
+                    if(typeof(data[x][field]) != 'undefined'){
+                        result.push(data[x][field]);
+                    }
+                }
+                func(result);
+            }else{
+                func(false);
+            }
+        });
+    }
 
     S.prototype.count = function (field, func) {
         var sql = this.DB.count(field);

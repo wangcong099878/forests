@@ -193,8 +193,8 @@
     //获取一条  传入字段数组 不传为空则获取全部
     S.prototype.find = function (fieldList,func) {
         return this.select(fieldList,function(ret){
-            if(typeof(ret.rows[0])=="object"){
-                func(ret.rows[0]);
+            if(typeof(ret.data[0])=="object"){
+                func(ret.data[0]);
             }else{
                 func(false);
             }
@@ -204,13 +204,31 @@
     //获取一个字段的子
     S.prototype.getField = function (field,func) {
         return this.select(field,function(ret){
-            if(typeof(ret.rows[0][field]) != 'undefined'){
-                func(ret.rows[0][field]);
+            if(typeof(ret.data[0][field]) != 'undefined'){
+                func(ret.data[0][field]);
             }else{
                 func(false);
             }
         });
     };
+
+    //获取一列字段的数组
+    S.prototype.pluck = function(field,func){
+        return this.select(field,function(resultData){
+            if(typeof(resultData.ret.data) != 'undefined'){
+                var result = new Array();
+                var data = resultData.ret.data;
+                for (x in data){
+                    if(typeof(data[x][field]) != 'undefined'){
+                        result.push(data[x][field]);
+                    }
+                }
+                func(result);
+            }else{
+                func(false);
+            }
+        });
+    }
 
     S.prototype.count = function (field, func) {
         var sql = this.DB.count(field);

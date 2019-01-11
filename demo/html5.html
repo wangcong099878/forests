@@ -5,6 +5,8 @@
     <title>html5数据库操作</title>
 </head>
 <body>
+html5数据库操作
+</body>
 <script src="../src/db/makesql.js"></script>
 <script src="../src/db/html5.js"></script>
 
@@ -31,6 +33,14 @@
     DBquery(tabSql, function (ret) {
         console.log(ret);
     });
+    //创建数据库表
+    DBquery(bookMarkTabSql, function (ret) {
+        console.log(ret);
+    });
+    //创建数据库表
+    DBquery(historyTabSql, function (ret) {
+        console.log(ret);
+    });
 
     //实例化model
     var db = new H5DB({
@@ -51,6 +61,10 @@
     }, function (ret) {
         console.log(ret);
     });
+
+    //db.where('name','in',["oooooo",2,3]).select()
+    //db.where('name','not in',["oooooo",2,3]).select()
+
     //
     //    //删除数据
     //    db.where('id', 1).delete(function (ret) {
@@ -106,6 +120,10 @@
 
     //pluck
 
+    db.pluck("name",function(res){
+        console.log(res);
+    });
+
     //自定义where条件也支持链式操作
     var sql = db.where(function () {
         return "id = 2";
@@ -131,5 +149,5 @@
     //    });
 
 </script>
-</body>
+
 </html>
