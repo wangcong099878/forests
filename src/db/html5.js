@@ -27,7 +27,7 @@
             tx.executeSql(sql, param, function (tx, result) {
                 if (typeof callback == 'function') {
                     callback(result);
-                }else{
+                } else {
                     console.log(result);
                 }
             }, function (err) {
@@ -102,8 +102,8 @@
 
     /*工具函数*/
     //打印所有数据表
-    S.prototype.showTables = function (tabname,func) {
-        if(typeof(func)=="undefined"){
+    S.prototype.showTables = function (tabname, func) {
+        if (typeof(func) == "undefined") {
             func = tabname;
             tabname = 0;
         }
@@ -168,39 +168,39 @@
     };
 
     //获取一条  传入字段数组 不传为空则获取全部
-    S.prototype.find = function (fieldList,func) {
-        return this.select(fieldList,function(ret){
-            if(typeof(ret.rows[0])=="object"){
+    S.prototype.find = function (fieldList, func) {
+        return this.select(fieldList, function (ret) {
+            if (typeof(ret.rows[0]) == "object") {
                 func(ret.rows[0]);
-            }else{
+            } else {
                 func(false);
             }
         });
     };
     //获取一个字段的子
-    S.prototype.getField = function (field,func) {
-        return this.select(field,function(ret){
-            if(typeof(ret.rows[0][field]) != 'undefined'){
+    S.prototype.getField = function (field, func) {
+        return this.select(field, function (ret) {
+            if (ret.rows.length > 0 && typeof(ret.rows[0][field]) != 'undefined') {
                 func(ret.rows[0][field]);
-            }else{
+            } else {
                 func(false);
             }
         });
     };
 
     //获取一列字段的数组
-    S.prototype.pluck = function(field,func){
-        return this.select(field,function(ret){
-            if(typeof(ret.rows) != 'undefined'){
+    S.prototype.pluck = function (field, func) {
+        return this.select(field, function (ret) {
+            if (typeof(ret.rows) != 'undefined') {
                 var result = new Array();
                 var data = ret.rows;
-                for (x in data){
-                    if(typeof(data[x][field]) != 'undefined'){
+                for (x in data) {
+                    if (typeof(data[x][field]) != 'undefined') {
                         result.push(data[x][field]);
                     }
                 }
                 func(result);
-            }else{
+            } else {
                 func(false);
             }
         });
@@ -227,9 +227,9 @@
             var sql = this.DB.select(fieldList);
         }
         if (typeof(fieldList) == 'object') {
-            if(fieldList.length>1){
+            if (fieldList.length > 1) {
                 fieldList = fieldList.join(",");
-            }else{
+            } else {
                 fieldList = fieldList.join("");
             }
             var sql = this.DB.select(fieldList);

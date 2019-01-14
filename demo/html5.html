@@ -43,17 +43,36 @@ html5数据库操作
     });
 
     //实例化model
-    var db = new H5DB({
+    var coverModel = new H5DB({
         tabname: "cover",
         dbname: "test1"
     });
 
-    db.showTables('co', function (ret) {
+    //实例化单表model
+    var bookarkModel = new H5DB("book_mark");
+
+    //添加一条数据
+    bookarkModel.insert({
+        icon: "wangcong",
+        url: "baidu",
+        title: "icon",
+        time: 1
+    }, function (ret) {
+        console.log(ret);
+    });
+
+    //删除一条数据
+    bookarkModel.where('name',1).delete(function(ret){
+        console.log(ret);
+    });
+
+
+    coverModel.showTables('co', function (ret) {
         console.log(ret);
     });
 
     //添加一条数据
-    db.insert({
+    coverModel.insert({
         name: "wangcong",
         url: "baidu",
         icon: "icon",
@@ -62,17 +81,38 @@ html5数据库操作
         console.log(ret);
     });
 
-    //db.where('name','in',["oooooo",2,3]).select()
-    //db.where('name','not in',["oooooo",2,3]).select()
+    /* 更新数据 */
+    var sql = coverModel.where(function(){
+        return "(`name` = 3 OR `id` = 6)";
+    }).where("id",1).orWhere("name",2).update({
+        "name":1,
+        "num":26
+    });
+
+    console.log(sql);
+
+    //使用方法  用tap事件执行这个跳页方法
+    function topage(pathname){
+        //如果是apicloud
+        //if(IS_APICLOUD){
+            //openwin(pathname);
+        //}
+
+        //如果是纯浏览打开
+        window.location.href = '/page/'+pathname;
+    }
+
+    //coverModel.where('name','in',["oooooo",2,3]).select()
+    //coverModel.where('name','not in',["oooooo",2,3]).select()
 
     //
     //    //删除数据
-    //    db.where('id', 1).delete(function (ret) {
+    //    coverModel.where('id', 1).delete(function (ret) {
     //        console.log(ret);
     //    });
     //
     //    //更新数据
-    //    db.where('id', 2).update({
+    //    coverModel.where('id', 2).update({
     //        name: "ddd",
     //        url: "ddd",
     //        icon: "ddd",
@@ -82,37 +122,37 @@ html5数据库操作
     //    });
     //
     //    //修改字段
-    //    db.where('id', 5).setField('name', 'nginx', function (ret) {
+    //    coverModel.where('id', 5).setField('name', 'nginx', function (ret) {
     //        console.log(ret);
     //    });
     //
     //    //增加
-    //    db.where('id', 5).inc('num', 1, function (ret) {
+    //    coverModel.where('id', 5).inc('num', 1, function (ret) {
     //        console.log(ret);
     //    });
     //
     //    //减少
-    //    db.where('id', 6).dec('num', function (ret) {
+    //    coverModel.where('id', 6).dec('num', function (ret) {
     //        console.log(ret);
     //    });
     //
     //    //求和
-    //    db.where('id', '<', 7).sum('num', function (ret) {
+    //    coverModel.where('id', '<', 7).sum('num', function (ret) {
     //        console.log(ret);
     //    });
     //
     //    //统计
-    //    db.where('id', '<', 7).count('num', function (ret) {
+    //    coverModel.where('id', '<', 7).count('num', function (ret) {
     //        console.log(ret);
     //    });
     //
     //    //获取一定条目   分页查询
-    //    db.where('num', 1).start(2).num(2).select(function (ret) {
+    //    coverModel.where('num', 1).start(2).num(2).select(function (ret) {
     //        console.log(ret);
     //    });
 
     //自定义where条件
-    //    db.where(function(){
+    //    coverModel.where(function(){
     //        return "id = 2";
     //    }).select(function (ret) {
     //        console.log(ret);
@@ -120,12 +160,12 @@ html5数据库操作
 
     //pluck
 
-    db.pluck("name",function(res){
+    coverModel.pluck("name",function(res){
         console.log(res);
     });
 
     //自定义where条件也支持链式操作
-    var sql = db.where(function () {
+    var sql = coverModel.where(function () {
         return "id = 2";
     }).orWhere(function () {
         return "num = 1"
@@ -133,11 +173,11 @@ html5数据库操作
         console.log(ret);
     });
 
-    db.where('id', 100).find(['name'], function (ret) {
+    coverModel.where('id', 200).find(['name'], function (ret) {
         console.log(ret);
     });
 
-    db.where('id', 30).getField('name', function (ret) {
+    coverModel.where('id', 30).getField('name', function (ret) {
         console.log(ret);
     });
 
