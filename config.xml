@@ -6,7 +6,7 @@
     <author email="251957448@qq.com" href="http://www.360cas.com">
         王丛
     </author>
-    <content src="demo/apicloud.syncdb.html"/>
+    <content src="demo/apicloud.html"/>
     <access origin="*"/>
     <preference name="pageBounce" value="false"/>
     <preference name="appBackground" value="#ffffff"/>

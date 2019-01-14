@@ -4,13 +4,7 @@
  */
 ;var globalDB;
 (function (w) {
-    var _config = {
-        tabname: "demo",
-        dbname: "youshang",
-        result: {},
-        ret: {},
-        err: {},
-    };
+
 
     var DBquery = function (dbname, sql, func) {
         if(sql.indexOf("SELECT") != -1){
@@ -86,15 +80,37 @@
     }
     //构建类属性
     S.prototype.construct = function (config) {
+        var _config = this.defaultConfig();
         var config = config ? config : {};
         var target = {};
-        this.config = Object.assign(target, _config, config);
+
+        for (var i in _config) {
+            if (config[i]) {
+                _config[i] = config[i];
+            }
+        }
+        this.config = _config;
         this.tabname = this.config.tabname;  //数据表名称
         this.dbname = this.config.dbname;    //数据库名称
         this.dbsize = "1024 * 1024 * 4";
         this.whereSql = "";
         this.sql = "";
         this.limitSql = "";
+    }
+
+
+    S.prototype.defaultConfig = function(){
+      return _config = {
+          tabname: "demo",
+          dbname: "youshang",
+          result: {},
+          ret: {},
+          err: {},
+      };
+    }
+
+    S.prototype.create = function(){
+        return this;
     }
 
     S.prototype.order = function (orderSql) {

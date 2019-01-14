@@ -11,6 +11,7 @@
     </style>
 </head>
 <body>
+  <div style="width:100%;height:50px;"></div>
 apicloud 数据库操作同步测试页
 </body>
 <script type="text/javascript" src="../src/db/makesql.js"></script>
@@ -85,25 +86,27 @@ apicloud 数据库操作同步测试页
             icon: "wangcong1",
             time: 23
         }));
-
-        p(db.where('id', 5).setField('title', 'nginx'));
-
+        //设置一个字段
+        p(db.where('id', 5).setField('title', '你是做啥的'));
+        //增加
         p(db.where('id', 5).inc('time', 1));
-
+        //减少
         p(db.where('id', 6).dec('time'));
-
+        //求和
         p(db.where('id', '<', 7).sum('time'));
-
+        //统计
         p(db.where('id', '<', 7).count('time'));
-
-        p(db.where('id', 1).start(2).num(2).select());
-
+        //分页查询
+        p(db.where('id','>', 1).start(2).num(2).select());
+        //查询全部
         p(db.select());
-
+        p('7号');
+        //数组形式返回一列数据
         p(db.pluck("title"));
 
+        //获取一个字段的值
         p(db.where("time",23).getField("title"));
-
+        //查询一条数据
         p(db.where("time",23).find());
 
     };

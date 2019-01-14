@@ -11,6 +11,7 @@
     </style>
 </head>
 <body>
+  <div style="width:100%;height:50px;"></div>
 apicloud 数据库操作异步测试页
 </body>
 <script type="text/javascript" src="../src/db/makesql.js"></script>
@@ -33,14 +34,16 @@ apicloud 数据库操作异步测试页
             //删除原有数据库
             var dropCover = "drop table cover";
 
-            p(DBquery('test', dropCover, function (ret) {
-                p(ret);
-            }));
+            //DBquery('test', dropCover, function (ret) {
+                //p(ret);
+            //});
 
             //创建数据库表
             DBquery('test', tabSql, function (ret) {
                 //p(ret);
             });
+
+            console.log(apiDB.dbname);
 
             var db = new apiDB({
                 tabname: "cover",
