@@ -1,6 +1,7 @@
 /**
  * Created by wangcong on 2018/08/02.
  * html5操作库
+ * url:https://github.com/wangcong099878/forests
  */
 ;(function (w) {
 

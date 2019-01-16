@@ -1,6 +1,7 @@
 /**
  * Created by wangcong on 2018/08/02.
  * js sql语句生成器
+ * url:https://github.com/wangcong099878/forests
  */
 ;var globalDB;
 (function (w) {

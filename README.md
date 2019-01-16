@@ -62,8 +62,8 @@ demo中的html5.html直接用chrome打开即可调试
 
     //添加一条数据
     bookarkModel.insert({
-        icon: "wangcong",
-        url: "baidu",
+        icon: "mybdhome",
+        url: "www.mybdhome.com",
         title: "icon",
         time: 1
     }, function (ret) {
@@ -81,8 +81,8 @@ demo中的html5.html直接用chrome打开即可调试
 
     //添加一条数据
     coverModel.insert({
-        name: "wangcong",
-        url: "baidu",
+        name: "mybdhome",
+        url: "www.mybdhome.com",
         icon: "icon",
         num: 1
     }, function (ret) {
@@ -98,11 +98,11 @@ demo中的html5.html直接用chrome打开即可调试
     });
 
     //in 查询
-    coverModel.where('name', 'in', ["oooooo", 2, 3]).select(function(ret){
+    coverModel.where('name', 'in', ["mybdhome", 2, 3]).select(function(ret){
 
     })
     //not in  查询
-    coverModel.where('name', 'not in', ["oooooo", 2, 3]).select(function(ret){
+    coverModel.where('name', 'not in', ["mybdhome", 2, 3]).select(function(ret){
 
     })
 
@@ -113,8 +113,8 @@ demo中的html5.html直接用chrome打开即可调试
 
     //更新数据
     coverModel.where('id', 2).update({
-        name: "ddd",
-        url: "ddd",
+        name: "mybdhome",
+        url: "www.mybdhome.com",
         icon: "ddd",
         num: "5"
     }, function (ret) {
@@ -250,7 +250,7 @@ demo中的html5.html直接用chrome打开即可调试
         //添加一条数据
         p(db.insert({
             title: "wangcong",
-            url: "baidu",
+            url: "www.mybdhome.com",
             icon: "icon",
             time: 23
         }));
@@ -260,7 +260,7 @@ demo中的html5.html直接用chrome打开即可调试
         //更新数据
         p(db.where('id', 2).update({
             title: "wangcong1",
-            url: "wangcong1",
+            url: "www.mybdhome.com",
             icon: "wangcong1",
             time: 23
         }));
@@ -342,7 +342,7 @@ demo中的html5.html直接用chrome打开即可调试
             //添加一条数据
             coverModel.insert({
                 name: "wangcong",
-                url: "baidu",
+                url: "www.mybdhome.com",
                 icon: "icon",
                 num: 1
             }, function (ret) {
@@ -402,5 +402,11 @@ demo中的html5.html直接用chrome打开即可调试
     };
 ```
 
+
+
+项目中用到的一个db类操作封装，错误和疏漏在所难免，欢迎大家评论中指正！
+另外该代码可以随意转载，修改以及重新发布，但需保留署名和github链接，谢谢！
+
+欢迎访问www.mybdhome.com。
 
 ### PS:该库不断完善中，有bug联系QQ251957448
