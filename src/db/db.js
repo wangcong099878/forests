@@ -1,7 +1,8 @@
 /**
  * Created by wangcong on 2018/08/02.
+ * author wangcong
  * apicloud 异步操作库
- * url:https://github.com/wangcong099878/forests
+ * url https://github.com/wangcong099878/forests
  */
 ;var globalDB;
 (function (w) {
