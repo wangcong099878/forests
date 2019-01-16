@@ -60,10 +60,14 @@
     };
 
     var DBShowTables = function (tabname,func) {
+        if(typeof(tabname)=="function"){
+            func = tabname
+        }
+        if(typeof(tabname)=="string"){
+            tabname = "'%"+tabname+"%'";
+        }
         if(typeof(tabname)!="string"){
             tabname = "'%'";
-        }else{
-            tabname = "'%"+tabname+"%'";
         }
         var sql = "SELECT * FROM sqlite_master WHERE type='table' AND name like "+tabname;
         return DBquery(DBDefaultConfig.dbname, sql,func);
@@ -290,4 +294,5 @@
     w.DBquery = DBquery;
     w.DBinit = DBinit;
     w.DBexec = DBexec;
+    w.DBShowTables = DBShowTables;
 })(window);

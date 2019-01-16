@@ -23,9 +23,9 @@ apicloud 数据库操作同步测试页
     }
     apiready = function () {
         globalDB = api.require('db'); //引用db模块
-        p(DBinit('test'));
+        //初始化数据库
+        DBinit('test');
 
-        console.log('同步开启数据库');
         //建表语句
         var tabSql = 'CREATE TABLE "cover_test" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"title" TEXT,"url" TEXT,"icon" TEXT,"time" INTEGER)';
         //历史表
@@ -60,13 +60,13 @@ apicloud 数据库操作同步测试页
         });
 
         //只传表名实例化
-        var coveryncModel = new apiDB({
-            tabname: "cover_test",
-            dbname: "test"
-        });
+        var coveryncModel = new apiDB("cover_sync");
 
-        console.log('打印所有数据库');
-        p(db.showTables());
+        //打印所有数据库
+        p(DBShowTables());
+        //模糊查找并打印
+        console.log('模糊查找打印数据表');
+        p(DBShowTables("cover"));
         console.log('打印所有数据库结束');
 
         //添加一条数据
@@ -76,16 +76,17 @@ apicloud 数据库操作同步测试页
             icon: "icon",
             time: 23
         }));
-
+        //删除一条数据
         p(db.where('id', 1).delete());
 
-        console.log('更新数据');
+        //更新数据
         p(db.where('id', 2).update({
             title: "wangcong1",
             url: "wangcong1",
             icon: "wangcong1",
             time: 23
         }));
+
         //设置一个字段
         p(db.where('id', 5).setField('title', '你是做啥的'));
         //增加

@@ -47,9 +47,11 @@ html5数据库操作
     DBShowTables('cover', function (tablist) {
         console.log(tablist.rows);
     });
+
+
     //实例化单表model
     var bookarkModel = new H5DB("book_mark");
-
+    //实例化cover表model
     var coverModel = new H5DB("cover");
 
     //添加一条数据
@@ -66,7 +68,7 @@ html5数据库操作
     bookarkModel.where('name', 1).delete(function (ret) {
         console.log(ret);
     });
-
+    //模糊查找表名
     coverModel.showTables('co', function (ret) {
         console.log(ret);
     });
@@ -89,12 +91,11 @@ html5数据库操作
         "num": 26
     });
 
-    //console.log(sql);
-
+    //in 查询
     coverModel.where('name', 'in', ["oooooo", 2, 3]).select(function(ret){
 
     })
-
+    //not in  查询
     coverModel.where('name', 'not in', ["oooooo", 2, 3]).select(function(ret){
 
     })
@@ -151,6 +152,7 @@ html5数据库操作
         console.log(ret);
     });
 
+    //数组形式返回字段
     coverModel.pluck("name", function (res) {
         console.log(res);
     });
@@ -163,11 +165,11 @@ html5数据库操作
     }).order("num desc").order("id asc").order("name desc").num(1).select(function (ret) {
         console.log(ret);
     });
-
+    //获取一列数据
     coverModel.where('id', 200).find(['name'], function (ret) {
         console.log(ret);
     });
-
+    //获取某个字段的值
     coverModel.where('id', 30).getField('name', function (ret) {
         console.log(ret);
     });

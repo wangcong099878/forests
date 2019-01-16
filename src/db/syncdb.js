@@ -256,4 +256,5 @@ var globalDB;
     w.DBquery = DBquery;
     w.DBinit = DBinit;
     w.DBexec = DBexec;
+    w.DBShowTables = DBShowTables;
 })(window);

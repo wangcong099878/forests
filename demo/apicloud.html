@@ -11,7 +11,7 @@
     </style>
 </head>
 <body>
-  <div style="width:100%;height:50px;"></div>
+<div style="width:100%;height:50px;"></div>
 apicloud 数据库操作异步测试页
 </body>
 <script type="text/javascript" src="../src/db/makesql.js"></script>
@@ -30,33 +30,47 @@ apicloud 数据库操作异步测试页
             console.log('开启数据库');
             //建表语句
             var tabSql = 'CREATE TABLE "cover" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"name" TEXT,"url" TEXT,"icon" TEXT,"num" INTEGER)';
+            //历史表
+            var historyTabSql = 'CREATE TABLE "history" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"icon" TEXT,"url" TEXT,"title" TEXT,"time" INTEGER)';
 
             //删除原有数据库
             var dropCover = "drop table cover";
 
             //DBquery('test', dropCover, function (ret) {
-                //p(ret);
+            //p(ret);
             //});
 
             //创建数据库表
             DBquery('test', tabSql, function (ret) {
                 //p(ret);
             });
+            //创建数据库表
+            DBquery('test', historyTabSql, function (ret) {
+                //p(ret);
+            });
 
-            console.log(apiDB.dbname);
-
-            var db = new apiDB({
+            //实例化model
+            var coverModel = new apiDB({
                 tabname: "cover",
                 dbname: "test"
             });
 
-            db.showTables(function (ret) {
-                //打印数据库列表
-                p(ret);
+            //只传表名实例化model
+            var historyModel = new apiDB("history");
+
+            //查询所有数据库表
+            DBShowTables(function (tablist) {
+                console.log("打印所有数据库表");
+                p(tablist);
+            });
+            //模糊查询某张表
+            DBShowTables('cover', function (tablist) {
+                console.log("打印数据库表");
+                p(tablist);
             });
 
             //添加一条数据
-            db.insert({
+            coverModel.insert({
                 name: "wangcong",
                 url: "baidu",
                 icon: "icon",
@@ -66,11 +80,13 @@ apicloud 数据库操作异步测试页
                 p(ret);
             });
 
-            //db.where('id', 1).delete(function (ret) {
-                //p(ret);
+            //删除数据
+            //coverModel.where('id', 1).delete(function (ret) {
+            //p(ret);
             //});
 
-            db.where('id', 2).update({
+            //修改数据
+            coverModel.where('id', 2).update({
                 name: "wangcong1",
                 url: "wangcong1",
                 icon: "wangcong1",
@@ -79,42 +95,40 @@ apicloud 数据库操作异步测试页
                 p(ret);
             });
 
-            db.where('id', 5).setField('name', 'nginx', function (ret) {
+            //设置一个字段
+            coverModel.where('id', 5).setField('name', 'nginx', function (ret) {
                 p(ret);
             });
-
-            db.where('id', 5).inc('num', 1, function (ret) {
+            //增加
+            coverModel.where('id', 5).inc('num', 1, function (ret) {
                 p(ret);
             });
-
-            db.where('id', 6).dec('num', function (ret) {
+            //减少
+            coverModel.where('id', 6).dec('num', function (ret) {
                 p(ret);
             });
-
-            db.where('id', '<', 7).sum('num', function (ret) {
+            //求和
+            coverModel.where('id', '<', 7).sum('num', function (ret) {
                 p(ret);
             });
-
-            db.where('id', '<', 7).count('num', function (ret) {
+            //计数
+            coverModel.where('id', '<', 7).count('num', function (ret) {
                 p(ret);
             });
-
-            db.where('num', 1).start(2).num(2).select(function (ret) {
+            //分页获取
+            coverModel.where('num', 1).start(2).num(2).select(function (ret) {
                 p(ret);
             });
-
-            db.select(function (ret) {
+            //获取全部数据
+            coverModel.select(function (ret) {
                 p(ret);
             });
-
-            db.pluck('name',function (ret) {
+            //字段列表
+            coverModel.pluck('name', function (ret) {
                 p(ret);
             });
         });
-
-
     };
-
 </script>
 </body>
 </html>
