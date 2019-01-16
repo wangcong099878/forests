@@ -5,7 +5,6 @@
 ;var globalDB;
 (function (w) {
 
-
     var DBquery = function (dbname, sql, func) {
         if (sql.indexOf("SELECT") != -1) {
             globalDB.selectSql({

@@ -39,17 +39,14 @@ html5数据库操作
     DBquery(historyTabSql, function (ret) {
         console.log(ret);
     });
-
     //查询所有数据库表
     DBShowTables(function (tablist) {
         console.log(tablist.rows);
     });
-
     //模糊查询某张表是否存在
     DBShowTables('cover', function (tablist) {
         console.log(tablist.rows);
     });
-
     //实例化单表model
     var bookarkModel = new H5DB("book_mark");
 
@@ -94,8 +91,13 @@ html5数据库操作
 
     //console.log(sql);
 
-    coverModel.where('name', 'in', ["oooooo", 2, 3]).select()
-    coverModel.where('name', 'not in', ["oooooo", 2, 3]).select()
+    coverModel.where('name', 'in', ["oooooo", 2, 3]).select(function(ret){
+
+    })
+
+    coverModel.where('name', 'not in', ["oooooo", 2, 3]).select(function(ret){
+
+    })
 
     //删除数据
     coverModel.where('id', 1).delete(function (ret) {
@@ -149,8 +151,6 @@ html5数据库操作
         console.log(ret);
     });
 
-    //pluck
-
     coverModel.pluck("name", function (res) {
         console.log(res);
     });
@@ -172,12 +172,17 @@ html5数据库操作
         console.log(ret);
     });
 
-    //console.log(sql);
-
     //获取该表全部数据
     coverModel.select(function (ret) {
         console.log(ret);
     });
+
+    //模糊查找
+    sql = coverModel.where('name','LIKE','%ngi%').select(function (ret) {
+        console.log(ret);
+    });
+
+    console.log(sql);
 
 </script>
 
