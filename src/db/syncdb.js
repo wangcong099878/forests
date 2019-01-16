@@ -5,13 +5,23 @@
 ;
 var globalDB;
 (function (w) {
-    var _config = {
+    var DBDefaultConfig = {
         tabname: "demo",
         dbname: "youshang",
         result: {},
         ret: {},
         err: {},
     };
+
+    var DBShowTables = function (tabname) {
+        if(typeof(tabname)!="string"){
+            tabname = "'%'";
+        }else{
+            tabname = "'%"+tabname+"%'";
+        }
+        var sql = "SELECT * FROM sqlite_master WHERE type='table' AND name like "+tabname;
+        return DBquery(DBDefaultConfig.dbname, sql);
+    }
 
     var DBquery = function (dbname, sql) {
         if (sql.indexOf("SELECT") != -1) {
@@ -37,6 +47,7 @@ var globalDB;
 
     //全局打开数据库
     var DBinit = function (dbname) {
+        DBDefaultConfig.dbname = dbname;
         return globalDB.openDatabaseSync({
             name: dbname
         });
@@ -61,19 +72,21 @@ var globalDB;
         });
         return this;
     }
+
     //构建类属性
     S.prototype.construct = function (config) {
+        this.config = DBDefaultConfig;
         var config = config ? config : {};
-        var target = {};
 
-        for (var i in _config) {
+        for (var i in DBDefaultConfig) {
             if (config[i]) {
-                _config[i] = config[i];
+                this.config[i] = config[i];
             }
         }
-        this.config = _config;
-        this.tabname = this.config.tabname; //数据表名称
-        this.dbname = this.config.dbname; //数据库名称
+
+        this.tabname = this.config.tabname;  //数据表名称
+        this.dbname = this.config.dbname;    //数据库名称
+        this.dbsize = "1024 * 1024 * 4";
         this.whereSql = "";
         this.sql = "";
         this.limitSql = "";

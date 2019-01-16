@@ -3,14 +3,6 @@
  * html5操作库
  */
 ;(function (w) {
-    var _config = {
-        dbsize: "1024 * 1024 * 4",
-        tabname: "demo",
-        dbname: "youshang",
-        result: {},
-        ret: {},
-        err: {},
-    };
 
     var DBquery = function (sql, param, callback) {
         //参数处理
@@ -28,6 +20,7 @@
                 if (typeof callback == 'function') {
                     callback(result);
                 } else {
+                    console.log("进来了");
                     console.log(result);
                 }
             }, function (err) {
@@ -39,7 +32,32 @@
 
     //全局打开数据库
     var DBinit = function (dbname, dbsize) {
+        DBDefaultConfig.dbname = dbname;
         globalDB = openDatabase(dbname, '1.0.0', '', dbsize);
+    };
+
+    var DBShowTables = function (tabname,func) {
+        if(typeof(tabname)=="function"){
+            func = tabname
+        }
+        if(typeof(tabname)=="string"){
+            tabname = "'%"+tabname+"%'";
+        }
+        if(typeof(tabname)!="string"){
+            tabname = "'%'";
+        }
+        var sql = "SELECT * FROM sqlite_master WHERE type='table' AND name like "+tabname;
+        return DBquery(sql,[],func);
+
+    }
+
+    var DBDefaultConfig = {
+        dbsize: "1024 * 1024 * 4",
+        tabname: "demo",
+        dbname: "youshang",
+        result: {},
+        ret: {},
+        err: {},
     };
 
     //构造函数  可以传字符串或者对象    只传字符串则为表名
@@ -55,17 +73,24 @@
             default:
                 alert("请传入正确的参数");
         }
+
         this.DB = new easyDB({
             tabname: this.tabname,
             dbname: this.dbname
         });
         return this;
     }
+
     //构建类属性
     S.prototype.construct = function (config) {
+        this.config = DBDefaultConfig;
         var config = config ? config : {};
-        var target = {};
-        this.config = Object.assign(target, _config, config);
+        for (var i in this.config) {
+            if (config[i]) {
+                this.config[i] = config[i];
+            }
+        }
+
         this.tabname = this.config.tabname;  //数据表名称
         this.dbname = this.config.dbname;    //数据库名称
         this.dbsize = "1024 * 1024 * 4";
@@ -241,4 +266,5 @@
     w.H5DB = S;
     w.DBquery = DBquery;
     w.DBinit = DBinit;
+    w.DBShowTables = DBShowTables;
 })(window);
