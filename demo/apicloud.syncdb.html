@@ -95,7 +95,7 @@ apicloud 数据库操作同步测试页
         p(db.where('id', 6).dec('time'));
         //求和
         p(db.where('id', '<', 7).sum('time'));
-        //统计
+        //计数
         p(db.where('id', '<', 7).count('time'));
         //分页查询
         p(db.where('id','>', 1).start(2).num(2).select());
