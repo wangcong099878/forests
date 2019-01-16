@@ -20,7 +20,6 @@
                 if (typeof callback == 'function') {
                     callback(result);
                 } else {
-                    console.log("进来了");
                     console.log(result);
                 }
             }, function (err) {

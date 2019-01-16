@@ -103,14 +103,11 @@ apicloud 数据库操作同步测试页
         p('7号');
         //数组形式返回一列数据
         p(db.pluck("title"));
-
         //获取一个字段的值
         p(db.where("time",23).getField("title"));
         //查询一条数据
         p(db.where("time",23).find());
-
     };
-
 </script>
 </body>
 </html>

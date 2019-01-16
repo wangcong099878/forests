@@ -6,7 +6,6 @@
 </head>
 <body>
 <script src="../src/db/makesql.js"></script>
-
 <script>
 
     var testModel = new easyDB("test");
@@ -20,7 +19,6 @@
     });
 
     console.log(sql);
-
 
     sql = testModel.where("id",1).delete();
     console.log(sql);
@@ -49,15 +47,6 @@
     }).where("id",1).orWhere("name",2).select();
 
     console.log(sql);
-
-
-
-
-
-
-
-
-
 
 </script>
 </body>
