@@ -26,8 +26,6 @@ apicloud 数据库操作异步测试页
     apiready = function () {
         globalDB = api.require('db'); //引用db模块
         DBinit('test', function (ret) {
-
-            console.log('开启数据库');
             //建表语句
             var tabSql = 'CREATE TABLE "cover" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"name" TEXT,"url" TEXT,"icon" TEXT,"num" INTEGER)';
             //历史表
@@ -36,9 +34,9 @@ apicloud 数据库操作异步测试页
             //删除原有数据库
             var dropCover = "drop table cover";
 
-            //DBquery('test', dropCover, function (ret) {
-            //p(ret);
-            //});
+            DBquery('test', dropCover, function (ret) {
+                p(ret);
+            });
 
             //创建数据库表
             DBquery('test', tabSql, function (ret) {
@@ -81,9 +79,9 @@ apicloud 数据库操作异步测试页
             });
 
             //删除数据
-            //coverModel.where('id', 1).delete(function (ret) {
-            //p(ret);
-            //});
+            coverModel.where('id', 1).delete(function (ret) {
+                p(ret);
+            });
 
             //修改数据
             coverModel.where('id', 2).update({
@@ -98,7 +96,8 @@ apicloud 数据库操作异步测试页
             //设置一个字段
             coverModel.where('id', 5).setField('name', 'nginx', function (ret) {
                 p(ret);
-            });git
+            });
+
             //增加
             coverModel.where('id', 5).inc('num', 1, function (ret) {
                 p(ret);
