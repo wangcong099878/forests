@@ -14,6 +14,7 @@
 - 网页版数据库操作工具 依赖 makesql.js
 
 ### html5
+demo中的html5.html直接用chrome打开即可调试
 ```javascript
     //初始化数据库 以及全局数据库名称
     DBinit("test2", 1024 * 1024 * 4);
