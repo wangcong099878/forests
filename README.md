@@ -402,6 +402,50 @@ demo中的html5.html直接用chrome打开即可调试
     };
 ```
 
+### 只使用sql生成器
+```javascript
+    //只需要引入makesql.js即可   生成好sql语句再到任意环境执行
+    var testModel = new easyDB("test");
+
+    console.log(testModel);
+    var sql = testModel.insert({
+        name: "wangcong",
+        url: "baidu",
+        icon: "icon",
+        num: 1
+    });
+
+    console.log(sql);
+
+    sql = testModel.where("id",1).delete();
+    console.log(sql);
+
+    sql = testModel.where(function(){
+        return "(`name` = 3 OR `id` = 6)";
+    }).where("id",1).orWhere("name",2).delete();
+    console.log(sql);
+
+    /* 更新数据 */
+    sql = testModel.where(function(){
+        return "(`name` = 3 OR `id` = 6)";
+    }).where("id",1).orWhere("name",2).update({
+        "name":1,
+        "age":26
+    });
+    /* 更改某字段 */
+    sql = testModel.where(function(){
+        return "(`name` = 3 OR `id` = 6)";
+    }).where("id",1).orWhere("name",2).setField("name","wangcong");
+
+    console.log(sql);
+
+    sql = testModel.where(function(){
+        return "(`name` = 3 OR `id` = 6)";
+    }).where("id",1).orWhere("name",2).select();
+
+    console.log(sql);
+```
+
 
 
 项目中用到的一个db类操作封装，错误和疏漏在所难免，欢迎大家评论中指正！
