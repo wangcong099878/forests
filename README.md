@@ -452,6 +452,6 @@ demo中的html5.html直接用chrome打开即可调试
 另外该代码可以随意转载，修改以及重新发布，但需保留署名和github链接，谢谢！
 
 本仓库地址：https://github.com/wangcong099878/forests
-欢迎访问www.mybdhome.com。
+
 
 ### PS:该库不断完善中，有bug联系QQ251957448
